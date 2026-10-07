@@ -36,9 +36,8 @@ services:
     depends_on: [prodhive-auth, prodhive-core]
     environment:
       JWT_SECRET: ${JWT_SECRET}
-      AUTH_SERVICE_URI: http://prodhive-auth:8081
-      CORE_SERVICE_URI: http://prodhive-core:8082
-      CORE_SERVICE_WS_URI: ws://prodhive-core:8082
+      AUTH_SERVICE_HOST: prodhive-auth
+      CORE_SERVICE_HOST: prodhive-core
     ports: ["8080:8080"]
 volumes:
   core-uploads:

@@ -5,7 +5,7 @@ spring:
   application:
     name: core-service
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5434/coredb?options=-c%20timezone=UTC}
+    url: ${DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5434}/${DB_NAME:coredb}?options=-c%20timezone=UTC}
 
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
@@ -31,4 +31,3 @@ github:
 openrouter:
   api:
     key: ${OPENROUTER_API_KEY:}
-

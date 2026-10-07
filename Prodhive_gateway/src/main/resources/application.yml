@@ -24,24 +24,24 @@ spring:
             allowCredentials: true
       routes:
         - id: core-service
-          uri: ${CORE_SERVICE_URI:http://127.0.0.1:8082}
+          uri: http://${CORE_SERVICE_HOST:127.0.0.1}:8082
           predicates:
             - Path=/api/core/**
 
         - id: auth-service-legacy
-          uri: ${AUTH_SERVICE_URI:http://127.0.0.1:8081}
+          uri: http://${AUTH_SERVICE_HOST:127.0.0.1}:8081
           predicates:
             - Path=/api/auth/{*segment}
           filters:
             - SetPath=/api/{segment}
 
         - id: auth-service
-          uri: ${AUTH_SERVICE_URI:http://127.0.0.1:8081}
+          uri: http://${AUTH_SERVICE_HOST:127.0.0.1}:8081
           predicates:
             - Path=/api/**
 
         - id: core-service-ws
-          uri: ${CORE_SERVICE_WS_URI:ws://127.0.0.1:8082}
+          uri: ws://${CORE_SERVICE_HOST:127.0.0.1}:8082
           predicates:
             - Path=/ws/**
 

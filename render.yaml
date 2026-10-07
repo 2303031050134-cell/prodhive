@@ -1,0 +1,123 @@
+services:
+  - type: pserv
+    name: prodhive-auth
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./Prodhive_auth/Dockerfile
+    dockerContext: ./Prodhive_auth
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: prodhive-auth-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: prodhive-auth-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: prodhive-auth-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: prodhive-auth-db
+          property: password
+      - key: JWT_SECRET
+        sync: false
+
+  - type: pserv
+    name: prodhive-core
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./Prodhive_core/Dockerfile
+    dockerContext: ./Prodhive_core
+    healthCheckPath: /actuator/health
+    disk:
+      name: core-uploads
+      mountPath: /app/uploads
+      sizeGB: 1
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: prodhive-core-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: prodhive-core-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: prodhive-core-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: prodhive-core-db
+          property: password
+      - key: JWT_SECRET
+        sync: false
+      - key: GITHUB_APP_ID
+        sync: false
+      - key: GITHUB_APP_SLUG
+        value: prodhive
+      - key: GITHUB_APP_PRIVATE_KEY
+        sync: false
+      - key: GITHUB_APP_WEBHOOK_SECRET
+        sync: false
+      - key: GITHUB_APP_SETUP_REDIRECT
+        value: https://prodhive-frontend.onrender.com
+      - key: OPENROUTER_API_KEY
+        sync: false
+
+  - type: pserv
+    name: prodhive-gateway
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./Prodhive_gateway/Dockerfile
+    dockerContext: ./Prodhive_gateway
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SERVER_PORT
+        value: "8080"
+      - key: AUTH_SERVICE_HOST
+        fromService:
+          type: pserv
+          name: prodhive-auth
+          property: host
+      - key: CORE_SERVICE_HOST
+        fromService:
+          type: pserv
+          name: prodhive-core
+          property: host
+      - key: JWT_SECRET
+        sync: false
+
+  - type: web
+    name: prodhive-frontend
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./prodhive_frontend/Dockerfile.render
+    dockerContext: ./prodhive_frontend
+    healthCheckPath: /healthz
+    envVars:
+      - key: GATEWAY_HOST
+        fromService:
+          type: pserv
+          name: prodhive-gateway
+          property: host
+
+databases:
+  - name: prodhive-auth-db
+    databaseName: authdb
+    user: prodhive
+    plan: basic-256mb
+    region: oregon
+  - name: prodhive-core-db
+    databaseName: coredb
+    user: prodhive
+    plan: basic-256mb
+    region: oregon

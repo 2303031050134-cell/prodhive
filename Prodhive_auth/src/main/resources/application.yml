@@ -16,6 +16,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
 
 jwt:
   secret: ${JWT_SECRET:prodhive_secret_key_for_jwt_token_auth_service_32bytes}

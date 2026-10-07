@@ -1,0 +1,6 @@
+.env
+**/.env
+**/target/
+**/uploads/
+prodhive_frontend/node_modules/
+prodhive_frontend/dist/

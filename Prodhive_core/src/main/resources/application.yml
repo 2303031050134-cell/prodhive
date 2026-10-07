@@ -1,0 +1,34 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  application:
+    name: core-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5434/coredb?options=-c%20timezone=UTC}
+
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jwt:
+    secret: ${JWT_SECRET:prodhive_secret_key_for_jwt_token_auth_service_32bytes}
+
+github:
+  webhook:
+    secret: ${GITHUB_WEBHOOK_SECRET:}
+  app:
+    id: ${GITHUB_APP_ID:}
+    slug: ${GITHUB_APP_SLUG:prodhive}
+    private-key: ${GITHUB_APP_PRIVATE_KEY:}
+    webhook-secret: ${GITHUB_APP_WEBHOOK_SECRET:}
+    setup-redirect: ${GITHUB_APP_SETUP_REDIRECT:http://localhost:5173}
+
+openrouter:
+  api:
+    key: ${OPENROUTER_API_KEY:}
+

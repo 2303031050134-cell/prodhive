@@ -1,0 +1,15 @@
+name: Build and test
+on: [push, pull_request]
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [Prodhive_auth, Prodhive_core, Prodhive_gateway]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: cd ${{ matrix.module }} && chmod +x mvnw && ./mvnw clean verify

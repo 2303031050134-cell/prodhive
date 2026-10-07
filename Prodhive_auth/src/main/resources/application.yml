@@ -1,0 +1,23 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/authdb?options=-c%20timezone=UTC}
+
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: ${JWT_SECRET:prodhive_secret_key_for_jwt_token_auth_service_32bytes}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+

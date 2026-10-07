@@ -1,0 +1,44 @@
+services:
+  auth-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports: ["5433:5432"]
+  core-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: coredb
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports: ["5434:5432"]
+  prodhive-auth:
+    build: ./Prodhive_auth
+    depends_on: [auth-db]
+    environment:
+      DB_URL: jdbc:postgresql://auth-db:5432/authdb?options=-c%20timezone=UTC
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      JWT_SECRET: ${JWT_SECRET}
+  prodhive-core:
+    build: ./Prodhive_core
+    depends_on: [core-db]
+    environment:
+      DB_URL: jdbc:postgresql://core-db:5432/coredb?options=-c%20timezone=UTC
+
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      JWT_SECRET: ${JWT_SECRET}
+    volumes: ["core-uploads:/app/uploads"]
+  prodhive-gateway:
+    build: ./Prodhive_gateway
+    depends_on: [prodhive-auth, prodhive-core]
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      AUTH_SERVICE_URI: http://prodhive-auth:8081
+      CORE_SERVICE_URI: http://prodhive-core:8082
+      CORE_SERVICE_WS_URI: ws://prodhive-core:8082
+    ports: ["8080:8080"]
+volumes:
+  core-uploads:

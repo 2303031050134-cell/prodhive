@@ -6,7 +6,6 @@ services:
     region: oregon
     dockerfilePath: ./Prodhive_auth/Dockerfile
     dockerContext: ./Prodhive_auth
-    healthCheckPath: /actuator/health
     envVars:
       - key: DB_HOST
         fromDatabase:
@@ -34,7 +33,6 @@ services:
     region: oregon
     dockerfilePath: ./Prodhive_core/Dockerfile
     dockerContext: ./Prodhive_core
-    healthCheckPath: /actuator/health
     disk:
       name: core-uploads
       mountPath: /app/uploads
@@ -78,7 +76,6 @@ services:
     region: oregon
     dockerfilePath: ./Prodhive_gateway/Dockerfile
     dockerContext: ./Prodhive_gateway
-    healthCheckPath: /actuator/health
     envVars:
       - key: SERVER_PORT
         value: "8080"

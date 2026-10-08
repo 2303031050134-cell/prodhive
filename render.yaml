@@ -101,11 +101,8 @@ services:
     dockerContext: ./prodhive_frontend
     healthCheckPath: /healthz
     envVars:
-      - key: GATEWAY_HOST
-        fromService:
-          type: pserv
-          name: prodhive-gateway
-          property: host
+      - key: GATEWAY_URL
+        value: https://prodhive-gateway.onrender.com
 
 databases:
   - name: prodhive-auth-db

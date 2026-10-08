@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { AUTH_API_URL, CORE_API_URL } from '../shared/api/config'
 
-const AUTH = axios.create({ baseURL: '/api' })
-const CORE = axios.create({ baseURL: '/api/core' })
+const AUTH = axios.create({ baseURL: AUTH_API_URL })
+const CORE = axios.create({ baseURL: CORE_API_URL })
 
 const parseJwt = token => {
   try { return JSON.parse(atob(token.split('.')[1])) } catch { return {} }

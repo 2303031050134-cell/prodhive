@@ -21,10 +21,10 @@ spring:
 
 github:
   webhook:
-    secret: ${GITHUB_WEBHOOK_SECRET}
+    secret: ${GITHUB_WEBHOOK_SECRET:${GITHUB_APP_WEBHOOK_SECRET:}}
   app:
     id: ${GITHUB_APP_ID}
-    slug: ${GITHUB_APP_SLUG:prodhive}
+    slug: ${GITHUB_APP_SLUG}
     private-key: ${GITHUB_APP_PRIVATE_KEY}
     webhook-secret: ${GITHUB_APP_WEBHOOK_SECRET}
     setup-redirect: ${GITHUB_APP_SETUP_REDIRECT}

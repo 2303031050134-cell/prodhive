@@ -21,7 +21,13 @@ spring:
               - DELETE
               - OPTIONS
             allowedHeaders:
-              - "*"
+              - Authorization
+              - Content-Type
+              - Accept
+              - X-User-Id
+              - X-User-Role
+              - X-Org-Id
+              - X-Org-Role
             allowCredentials: true
       routes:
         - id: core-service

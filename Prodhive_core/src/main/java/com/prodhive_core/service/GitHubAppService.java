@@ -4,6 +4,8 @@ import com.prodhive_core.entity.GithubInstallation;
 import com.prodhive_core.repository.GithubInstallationRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import tools.jackson.databind.JsonNode;
@@ -20,6 +22,8 @@ import java.util.Map;
 
 @Service
 public class GitHubAppService {
+    private static final Logger log = LoggerFactory.getLogger(GitHubAppService.class);
+
     private final GithubInstallationRepository installationRepository;
     private final RestClient github;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -100,6 +104,7 @@ public class GitHubAppService {
             entity.setUpdatedAt(Instant.now());
             return installationRepository.save(entity);
         } catch (Exception e) {
+            log.error("Failed to load GitHub installation {}", installationId, e);
             throw new IllegalStateException("Unable to load GitHub installation", e);
         }
     }

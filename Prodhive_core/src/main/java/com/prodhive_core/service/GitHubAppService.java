@@ -175,8 +175,8 @@ public class GitHubAppService {
         int totalLen = pkcs1Len + 22;
         pkcs8Header[2] = (byte) ((totalLen >> 8) & 0xff);
         pkcs8Header[3] = (byte) (totalLen & 0xff);
-        pkcs8Header[20] = (byte) ((pkcs1Len >> 8) & 0xff);
-        pkcs8Header[21] = (byte) (pkcs1Len & 0xff);
+        pkcs8Header[24] = (byte) ((pkcs1Len >> 8) & 0xff);
+        pkcs8Header[25] = (byte) (pkcs1Len & 0xff);
 
         byte[] result = new byte[pkcs8Header.length + pkcs1Len];
         System.arraycopy(pkcs8Header, 0, result, 0, pkcs8Header.length);

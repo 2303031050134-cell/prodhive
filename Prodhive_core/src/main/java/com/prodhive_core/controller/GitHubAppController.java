@@ -55,7 +55,7 @@ public class GitHubAppController {
             return ResponseEntity.badRequest().build();
         }
         appService.syncInstallation(installationId);
-        String location = setupRedirect + "/projects/" + projectId + "/settings?tab=GitHub&github_installation=" + installationId;
+        String location = setupRedirect + "/app/projects/" + projectId + "/settings?tab=GitHub&github_installation=" + installationId;
         return ResponseEntity.status(302).header("Location", location).build();
     }
 
